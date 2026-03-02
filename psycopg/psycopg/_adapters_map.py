@@ -140,7 +140,7 @@ class AdaptersMap:
             )
 
         if _psycopg:
-            dumper = self._get_optimised(dumper)
+            dumper = self.get_optimised(dumper)
 
         # Register the dumper both as its format and as auto
         # so that the last dumper registered is used in auto (%s) format
@@ -179,7 +179,7 @@ class AdaptersMap:
             raise TypeError(f"loaders should be registered on oid, got {oid} instead")
 
         if _psycopg:
-            loader = self._get_optimised(loader)
+            loader = self.get_optimised(loader)
 
         if not self._own_loaders[(fmt := loader.format)]:
             self._loaders[fmt] = self._loaders[fmt].copy()
@@ -271,7 +271,7 @@ class AdaptersMap:
         return self._loaders[format].get(oid)
 
     @classmethod
-    def _get_optimised(self, cls: type[RV]) -> type[RV]:
+    def get_optimised(self, cls: type[RV]) -> type[RV]:
         """Return the optimised version of a Dumper or Loader class.
 
         Return the input class itself if there is no optimised version.
